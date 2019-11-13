@@ -1,0 +1,1 @@
+# yml-homebrew-template
