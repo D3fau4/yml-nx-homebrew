@@ -1,5 +1,5 @@
 
-name: Build Atmosphère
+name: Build Payload
 
 on: [push]
 jobs:
@@ -20,14 +20,7 @@ jobs:
         sudo dkp-pacman -S $(dkp-pacman -Ssq switch-*) --noconfirm
         sudo dkp-pacman -S devkit-env  devkitARM  devkitarm-crtls devkitarm-rules --noconfirm
         
-    - name: Download Sept patch
-      run: |
-        rm sept/sept-secondary/Makefile
-        wget -P sept/sept-secondary/ http://illegalshit.tk/sept/Makefile
-        wget -P sept/sept-secondary/ http://illegalshit.tk/sept/sept-secondary_00.enc
-        wget -P sept/sept-secondary/ http://illegalshit.tk/sept/sept-secondary_01.enc
-      
-    - name: Building Atmosphere
+    - name: Make app
       run: |
         echo ##########################
         echo #     SETTING PATH       #
@@ -37,9 +30,9 @@ jobs:
         export DEVKITARM=${DEVKITPRO}/devkitARM
         export DEVKITPPC=${DEVKITPRO}/devkitPPC
         export PATH=${DEVKITPRO}/tools/bin:$PATH
-        make dist
+        make
         
     - uses: actions/upload-artifact@master
       with:
         name: Build
-        path: out/
+        path: payload.bin
